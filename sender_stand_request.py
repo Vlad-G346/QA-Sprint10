@@ -16,9 +16,11 @@ def get_new_user_token():
     response = post_new_user(data.user_body)
     return response.json().get("authToken")
 
-# Создание нового набора для нового пользователя
-def post_new_kit(kit_body):
-    data.headers["Authorization"] += get_new_user_token()
+# Создание нового набора для пользователя
+def post_new_kit(kit_body, auth_token):
+    autht_headers = data.headers.copy()
+    autht_headers["Authorization"] = "Bearer " + auth_token
     return requests.post(configuration.URL_SERVICE + configuration.CREATE_PRODUCTS_KIT_PATH,
-                         json = kit_body,
-                         headers = data.headers)
+                         json=kit_body,
+                         headers=autht_headers)
+

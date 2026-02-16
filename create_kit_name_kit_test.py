@@ -3,6 +3,9 @@ import data
 # Импорт модуля sender_stand_request, содержащий функции для отправки HTTP-запросов к API
 import sender_stand_request
 
+# Единоразово получаем токен авторизации для всех тестов
+auth_token = sender_stand_request.get_new_user_token()
+
 # Генерация набора для тестов
 def get_kit_body(name):
     correct_kit_body = data.kit_body.copy()
@@ -12,19 +15,19 @@ def get_kit_body(name):
 # Функция для позитивной проверки
 def positive_assertion(name):
     kit_body_positive = get_kit_body(name)
-    kit_body_positive_response = sender_stand_request.post_new_kit(kit_body_positive)
+    kit_body_positive_response = sender_stand_request.post_new_kit(kit_body_positive, auth_token)
     assert kit_body_positive_response.json()["name"] == name
     assert kit_body_positive_response.status_code == 201
 
 # Функция для негативной проверки
 def negative_assertion(name):
     kit_body_negative = get_kit_body(name)
-    kit_body_negative_response = sender_stand_request.post_new_kit(kit_body_negative)
+    kit_body_negative_response = sender_stand_request.post_new_kit(kit_body_negative, auth_token)
     assert kit_body_negative_response.status_code == 400
 
 # Функция для негативной проверки с пустым телом запроса
 def negative_assertion_no_name(kit_body):
-    kit_no_name = sender_stand_request.post_new_kit(kit_body)
+    kit_no_name = sender_stand_request.post_new_kit(kit_body, auth_token)
     assert kit_no_name.status_code == 400
 
 # Тест 1: Допустимое количество символов (1), ОР: 201

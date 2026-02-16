@@ -2,7 +2,7 @@
 # Передается токен пользователя
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer jknnFApafP4awfAIFfafam2fma"
+    "Authorization": "Bearer authToken"
 }
 
 # Тело POST запроса для создания нового пользователя
